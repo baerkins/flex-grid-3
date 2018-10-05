@@ -1,0 +1,71 @@
+// -------------
+// Grid Settings
+// -------------
+
+$grid-prefix: 'g-' !default;                   // Prefix for grid classes
+$grid-output-classes: true !default;           // Whether or not to output grid classes
+
+// -----------
+// Scaffolding
+// -----------
+
+$container-max-width: 144rem !default;         // max width of grid container
+$site-max-width: 100% !default;                // max width of body;
+
+// Defaults for grid and break mixins
+$grid-columns: 12 !default;                    // Grid Columns (int)
+$gutter-width: 3rem !default;                  // Width of grid gutter
+$grid-outer-margin: 2rem !default;             // Buffer between grid and edge of container
+$default-breakpoint-attr: min-width !default;  // Default for breakpoint mixin
+
+
+// -----------
+// Breakpoints
+// -----------
+
+// Breakpoint sizes for use in flexgrid and break() mixin
+$xs-break:    (480 / 16)  * 1em;
+$sm-break:    (720 / 16)  * 1em;
+$sm-md-break: (970 / 16)  * 1em;
+$md-break:    (1080 / 16) * 1em;
+$lg-break:    (1220 / 16) * 1em;
+$xl-break:    (1400 / 16) * 1em;
+
+// Max Width
+$xs-break-max:    (max-width: $xs-break);
+$sm-break-max:    (max-width: $sm-break);
+$sm-md-break-max: (max-width: $sm-md-break);
+$md-break-max:    (max-width: $md-break);
+$lg-break-max:    (max-width: $lg-break);
+$xl-break-max:    (max-width: $xl-break);
+
+// Breakpoint Container Sizes (the size of the .container class at the matching breakpoint)
+$xs-break-container:    ($xs-break - 2.0em);
+$sm-break-container:    ($sm-break - 2.0em);
+$sm-md-break-container: ($sm-md-break - 2.0em);
+$md-break-container:    ($md-break - 2.0em);
+$lg-break-container:    ($lg-break - 2.0em);
+$xl-break-container:    ($xl-break - 2.0em);
+
+
+// Create or remove breakpoints for your project
+// Syntax:
+// name BREAKPOINT_SIZE(rem) MAX_CONTAINER_SIZE(rem),
+$flexgridBreakpoints: (
+  ( xs,    $xs-break,    $xs-break-container ),
+  ( sm,    $sm-break,    $sm-break-container ),
+  ( sm-md, $sm-md-break, $sm-md-break-container ),
+  ( md,    $md-break,    $md-break-container ),
+  ( lg,    $lg-break,    $lg-break-container ),
+  ( xl,    $xl-break,    $xl-break-container )
+);
+
+
+
+
+// ----------------------------
+// GRID CALC VARS - DO NOT EDIT
+// ----------------------------
+
+$gutter-compensation: $gutter-width * .5 * -1;
+$half-gutter-width: $gutter-width * .5;

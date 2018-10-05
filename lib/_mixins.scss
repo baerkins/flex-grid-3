@@ -1,0 +1,186 @@
+///
+/// Create a new breakpoint. Use in conjunction with breakpoint variables.
+///
+/// @param {various} $size  - Either string (900px) or map (min-height: 900px), or false
+/// @param {string}  $media [only screen] - Media type
+///
+/// @require {variable} default-breakpoint-attr
+///
+/// @example scss - Basic Usage Sass
+///   div {
+///     font-size: 12px;
+///
+///     // Use a breakpoint variable
+///     @include break($medium) {
+///       font-size: 16px;
+///     }
+///
+///     // Use a px, em, or rem value
+///     @include break(1024px) {
+///       font-size: 16px;
+///     }
+///   }
+///
+///
+///   div {
+///     font-size: 16px;
+///
+///     // Use a map to include multiple breakpoint queries
+///     @include break((min-width: 1024px, min-height: 1031px)) {
+///       font-size: 10px;
+///     }
+///
+///     // Set $size to false to only query by media type
+///     @include break(false, print) {
+///       font-size: 10px;
+///     }
+///   }
+///
+///
+///
+@mixin break($size, $media: only screen) {
+
+  $_set-point: '';
+
+  @if $size {
+    @if type-of($size) == 'map' { // ex. (max-width: 900px, max-height, 700px)
+
+      @each $attr, $val in $size {
+        $_set-point: $_set-point + 'and (#{$attr}: #{$val})';
+      }
+
+    } @else { // Assume it's a value for default break
+
+      $_set-point: 'and (#{$default-breakpoint-attr}: #{$size})';
+
+    }
+
+    @media #{$media} #{$_set-point} {
+      @content;
+    }
+
+  } @else {
+    @media #{$media} {
+      @content;
+    }
+  }
+}
+
+
+// -----------
+// Scaffolding
+// -----------
+
+//
+// Flexgrid Container defaults
+//
+@mixin flexContainer($w, $fluid: false) {
+  width: $w;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: $container-max-width;
+
+  @if $fluid == true {
+    padding-right: $grid-outer-margin;
+    padding-left: $grid-outer-margin;
+  }
+}
+
+//
+// Flexgrid Row defaults
+//
+@mixin flexRow($direction: row) {
+  display: flex;
+  flex: 0, 1, auto;
+  flex-direction: $direction;
+  flex-wrap: wrap;
+  margin-right: $gutter-compensation;
+  margin-left: $gutter-compensation;
+  @include flexRowModifiers;
+}
+
+
+// -----------------
+// Grid calculations
+// -----------------
+
+
+//
+// Common to all Flexgrid Columns
+//
+@mixin flexColCommon {
+  flex: 0, 0, auto;
+  padding-right: $half-gutter-width;
+  padding-left: $half-gutter-width;
+}
+
+//
+// Flexgrid column width calculation
+//
+@mixin flexCol($i) {
+  flex-basis: (100% / $grid-columns * $i);
+  max-width: (100% / $grid-columns * $i);
+}
+
+@mixin flexColFull {
+  @include flexColCommon;
+  width: 100%;
+  flex-basis: auto;
+}
+
+//
+// Flexgrid column offset calculation
+//
+@mixin flexColOffset($i) {
+  margin-left: (100% / $grid-columns * $i);
+}
+
+
+
+//
+// Flexgrid Row Modifiers
+//
+@mixin flexRowModifiers {
+  &--normal {
+    flex-direction: row;
+  }
+
+  &--reverse {
+    flex-direction: row-reverse;
+  }
+
+  &--start {
+    justify-content: flex-start;
+    text-align: start;
+  }
+
+  &--center {
+    justify-content: center;
+    text-align: center;
+  }
+
+  &--end {
+    justify-content: flex-end;
+    text-align: end;
+  }
+
+  &--top {
+    align-items: flex-start;
+  }
+
+  &--middle {
+    align-items: center;
+  }
+
+  &--bottom {
+    align-items: flex-end;
+  }
+
+  &--around {
+    justify-content: space-around;
+  }
+
+  &--between {
+    justify-content: space-between;
+  }
+}

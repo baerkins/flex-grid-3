@@ -1,0 +1,73 @@
+//
+// Modified version of Flexbox Grid Sass by Huge Inc.
+// https://github.com/hugeinc/flexboxgrid-sass
+//
+@if $grid-output-classes == true {
+
+// Base Containers
+.#{$grid-prefix}container {
+  @include flexContainer(90%);
+}
+
+.#{$grid-prefix}container-fluid {
+  @include flexContainer(100%, true);
+}
+
+// Base Row
+.#{$grid-prefix}row {
+  @include flexRow;
+}
+
+// Base Column
+.#{$grid-prefix}col {
+  @include flexColFull();
+}
+
+// Column classes
+@for $i from 1 through $grid-columns {
+
+  .#{$grid-prefix}col-#{$i} {
+    @include flexColCommon;
+    @include flexCol($i);
+  }
+
+  .#{$grid-prefix}col--offset-#{$i} {
+    @include flexColOffset($i);
+  }
+}
+
+
+@each $breakpoint in $flexgridBreakpoints {
+  $name: nth($breakpoint, 1);
+  $size: nth($breakpoint, 2);
+  $container: nth($breakpoint, 3);
+
+  @media only screen and (min-width: $size) {
+    .#{$grid-prefix}container {
+      width: $container;
+    }
+
+    .#{$grid-prefix}row-#{$name} {
+      @include flexRow;
+    }
+
+
+    @for $i from 1 through $grid-columns {
+      .#{$grid-prefix}col-#{$name}-#{$i} {
+        // @include flexColCommon;
+        @include flexCol($i);
+      }
+
+
+      .#{$grid-prefix}col-#{$name}--offset-#{$i} {
+        @include flexColOffset($i);
+      }
+    }
+
+    .#{$grid-prefix}col-#{$name} {
+      @include flexColFull();
+    }
+  }
+}
+
+}
